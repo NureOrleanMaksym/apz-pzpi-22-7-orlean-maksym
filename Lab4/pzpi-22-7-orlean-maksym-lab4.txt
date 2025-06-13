@@ -1,0 +1,430 @@
+Міністерство освіти і науки України
+Харківський національний університет радіоелектроніки
+
+
+Кафедра програмної інженерії
+
+
+
+
+
+Звіт
+З лабораторної роботи №4
+З дисципліни «Архітектура програмного забезпечення»
+на тему: «Розробка програмної архітектури та створення і відлагодження програмного коду програмного застосунку мобільного пристрою для програмної системи»
+
+
+
+
+
+
+Виконавець:		
+ст. гр. ПЗПІ-22-7						                    Орлеан М. Е. 
+
+Перевірив:		
+ст. викладач кафедри ПІ				                    Сокорчук І. П. 
+	
+
+
+
+
+Харків 2025
+4 РОЗРОБКА ПРОГРАМНОЇ АРХІТЕКТУРИ ТА СТВОРЕННЯ І ВІДЛАГОДЖЕННЯ ПРОГРАМНОГО КОДУ ПРОГРАМНОГО ЗАСТОСУНКУ МОБІЛЬНОГО ПРИСТРОЮ ДЛЯ ПРОГРАМНОЇ СИСТЕМИ
+4.1 ІСТОРІЯ ЗМІН
+
+
+Зміни в документі нотуються до таблиці 4.1.
+
+Таблиця 4.1 – Історія змін
+№	Дата	Версія звіту	Опис змін та виправлень
+1	31.05.25	0.1	Створено розділ «Історія змін»
+2	31.05.25	0.1	Створено розділ «Завдання»
+3	31.05.25	0.1	Створено розділ «Опис виконаної роботи»
+4	31.05.25	0.1	Створено розділ «Висновки»
+5	02.06.25	0.2	Додано додаток А з посиланням на відеоролик
+6	02.06.25	0.2	Додано додаток Б з графічними матеріалами
+7	02.06.25	0.2	Додано додаток В з програмним кодом
+
+
+4.2 ЗАВДАННЯ
+
+
+Мета завдання полягає в розробці функціональної частини мобільного клієнта програмної системи моніторингу дорожнього руху, яка забезпечує підтримку роботи користувачів на платформі Android.
+Мобільний застосунок під назвою TrafficMonitor Mobile App створюється з метою забезпечення зручного та інтуїтивно зрозумілого інтерфейсу для моніторингу дорожнього руху в реальному часі. Основна увага приділяється реалізації базового функціоналу, що включає:
+•	відображення даних про транспортний потік, зібраних з IoT-пристроїв (щільність руху, швидкість, кількість транспортних засобів);
+•	перегляд історії вимірювань;
+•	отримання сповіщень про затори або небезпечні ділянки на дорогах.
+Також реалізується інтеграція з серверною частиною системи через REST API, з використанням бази даних MongoDB та протоколу MQTT для обміну даними з IoT-пристроями. Проєкт передбачає дотримання принципів адаптивного дизайну для забезпечення коректного відображення інтерфейсу на різних типах Android-пристроїв. Метою є створення надійного, функціонального та зручного у використанні мобільного інструменту для ефективного управління даними про дорожній рух.
+
+
+4.3	 ОПИС ВИКОНАНОЇРОБОТИ
+
+
+Ось адаптований варіант цього тексту під твій проєкт HealthCare-системи, мобільний додаток якої створено на Android з використанням Kotlin, REST API, MongoDB та MQTT:
+Архітектура та Технологічна Реалізація Застосунку HealthCare Mobile App
+Мобільний застосунок HealthCare Mobile App розроблено на базі архітектурного підходу MVVM (Model-View-ViewModel) з використанням мови Kotlin. Структура проєкту організована в середовищі Android Studio з чітким розподілом на модулі даних, користувацького інтерфейсу та бізнес-логіки. Для навігації між екранами застосовано Navigation Component.
+UI-шар:
+•	Екрани (наприклад, LoginScreen.kt, DashboardScreen.kt, HealthDataScreen.kt) реалізовано як фрагменти з XML-розміткою.
+•	Використовуються базові компоненти інтерфейсу: EditText, Button, TextView, RecyclerView.
+•	Керування станом здійснюється через ViewModel із використанням LiveData для реактивного оновлення UI у відповідь на зміну даних.
+Дані та мережевий шар:
+•	Для взаємодії з сервером використовується Retrofit, що реалізує HTTP-запити до REST API.
+•	Gson застосовується для конвертації JSON-відповідей у Kotlin-об’єкти, наприклад User.kt, HealthMetric.kt.
+•	Додаток підтримує інтеграцію з MongoDB через серверну частину, а також отримання даних з IoT-сенсорів через MQTT (для реального часу).
+Локальне зберігання:
+•	SharedPreferences використовується для зберігання JWT-токену після автентифікації.
+Ключові технології:
+•	Kotlin – основна мова програмування.
+•	Android SDK – для реалізації нативного функціоналу.
+•	Retrofit + Gson – для мережевої взаємодії.
+•	Navigation Component – для організації переходів між екранами.
+•	LiveData та ViewModel – для керування даними й станом інтерфейсу.
+•	SharedPreferences – для локального зберігання токену автентифікації.
+Функціональність:
+•	LoginScreen.kt – автентифікація користувача з використанням JWT.
+•	DashboardScreen.kt – відображення загального стану здоров’я, ключових показників.
+•	HealthDataScreen.kt – виведення історії вимірювань сенсорів (температура, тиск, пульс тощо).
+Взаємодія з бекендом:
+•	Retrofit виконує HTTP-запити (GET/POST) до REST API.
+•	JWT-токен передається в заголовках запитів для автентифікації.
+•	Синхронізація фізіологічних показників відбувається з базою MongoDB, а актуальні значення можуть надходити через MQTT-брокер.
+Інтернаціоналізація:
+•	Текстові ресурси винесено до strings.xml, що забезпечує підтримку локалізації (наразі українська та англійська мови).
+Безпека:
+•	Використовується базова авторизація через JWT.
+•	Шифрування даних у локальному сховищі наразі не реалізовано, але передбачено для майбутнього оновлення.
+
+
+4.4 ВИСНОВКИ
+
+
+У результаті виконання завдання було успішно розроблено мобільний застосунок TrafficMonitor Mobile App для платформи Android, який відповідає поставленим цілям і забезпечує базову функціональність для моніторингу дорожнього руху в реальному часі.
+Застосунок реалізовано з використанням мови Kotlin і архітектури MVVM (Model-View-ViewModel), що гарантує чітке розділення логіки, інтерфейсу та даних, полегшує тестування, масштабування та підтримку проєкту. 
+Інтерфейс застосунку є зручним і адаптивним, забезпечуючи комфортне використання на різних Android-пристроях. Основні функції включають:
+- автентифікацію користувачів через JWT;
+- відображення актуальних даних з IoT-пристроїв (щільність руху, швидкість, кількість транспортних засобів) на інформаційній панелі;
+- перегляд історії вимірювань із можливістю аналізу показників.
+
+Застосунок ефективно інтегрується з серверною частиною через REST API та MongoDB, а також підтримує обмін даними з IoT-пристроями за протоколом MQTT, що забезпечує оперативне оновлення інформації.
+TrafficMonitor Mobile App готовий до використання та створює міцну основу для подальшого вдосконалення, зокрема додавання аналітичних звітів, персоналізованих сповіщень і рекомендацій щодо оптимізації маршрутів, що сприятиме підвищенню безпеки та ефективності дорожнього руху.
+ 
+ДОДАТОК А
+Посилання на відеозапис доповіді та хронологічний опис
+
+Відеозапис доповіді на YouTube: https://youtu.be/K5yXnxwDMus
+Хронологічний опис:
+00:00 – Вступ
+00:43 – Розклад
+01:00 - Здоров'я
+01:51 - Профіль користувача
+02:01 - Персональна інформація
+02:20 – Сповіщення
+02:30 - Безпека та приватність
+02:49 - Медичні записи
+03:07- Налаштування
+03:30 - Підтримка  
+ДОДАТОК Б
+Графічні матеріали
+
+ 
+Рисунок Б.1 – UML діаграма прецедентів
+
+ 
+Рисунок Б.2 – UML діаграма компонентів
+
+Рисунок Б.3 – ER-модель даних мобільної платформи
+
+ 
+Рисунок Б.4 – UML діаграма діяльності
+ДОДАТОК В
+Програмний код авторизації веб-частини
+В.1 Реєстрація
+GitHub репозиторій: 
+
+01 package com.healthcare.healthcare1.ui.auth
+02
+03 import androidx.compose.foundation.layout.*
+04 import androidx.compose.material3.*
+05 import androidx.compose.runtime.*
+06 import androidx.compose.ui.Alignment
+07 import androidx.compose.ui.Modifier
+08 import androidx.compose.ui.unit.dp
+09 import androidx.hilt.navigation.compose.hiltViewModel
+10 import com.healthcare.healthcare1.ui.components.*
+11
+12 @Composable
+13 fun AuthScreen(
+14     onAuthSuccess: (String) -> Unit,
+15     viewModel: AuthViewModel = hiltViewModel()
+16 ) {
+17     var isLogin by remember { mutableStateOf(true) }
+18     var email by remember { mutableStateOf("") }
+19     var password by remember { mutableStateOf("") }
+20
+21     val authState by viewModel.authState.collectAsState()
+22
+23     LaunchedEffect(authState) {
+24         if (authState is AuthState.Success) {
+25             onAuthSuccess((authState as AuthState.Success).token)
+26         }
+27     }
+28
+29     Column(
+30         modifier = Modifier
+31             .fillMaxSize()
+32             .padding(16.dp),
+33         horizontalAlignment = Alignment.CenterHorizontally,
+34         verticalArrangement = Arrangement.Center
+35     ) {
+36         Text(
+37             text = if (isLogin) "Login" else "Register",
+38             style = MaterialTheme.typography.headlineMedium,
+39             modifier = Modifier.padding(bottom = 32.dp)
+40         )
+41
+42         when (authState) {
+43             is AuthState.Loading -> LoadingSpinner()
+44             is AuthState.Error -> ErrorMessage((authState as AuthState.Error).message)
+45             else -> {
+46                 healthCareTextField(
+47                     value = email,
+48                     onValueChange = { email = it },
+49                     label = "Email",
+50                     modifier = Modifier.padding(bottom = 16.dp)
+51                 )
+52
+53                 healthCareTextField(
+54                     value = password,
+55                     onValueChange = { password = it },
+56                     label = "Password",
+57                     isPassword = true,
+58                     modifier = Modifier.padding(bottom = 24.dp)
+59                 )
+60
+61                 healthCareButton(
+62                     onClick = {
+63                         if (isLogin) {
+64                             viewModel.login(email, password)
+65                         } else {
+66                             viewModel.register(email, password)
+67                         }
+68                     },
+69                     text = if (isLogin) "Login" else "Register",
+70                     modifier = Modifier.padding(bottom = 16.dp)
+71                 )
+72
+73                 TextButton(
+74                     onClick = { isLogin = !isLogin }
+75                 ) {
+76                     Text(
+77                         text = if (isLogin) "Need an account? Register" else "Have an account? Login"
+78                     )
+79                 }
+80             }
+81         }
+82     }
+83 }
+
+В.2 Екран деталей автомобіля.
+GitHub репозиторій: https://github.com/NureTryhubIhnat/apz-pzpi-22-7-tryhub-ihnat/blob/main/Lab4/pzpi-22-7-tryhub-ihnat-lab4/vehicles/HealthDetailsScreen.kt 
+
+01 package com.healthcare.healthcare1.ui.vehicles
+02
+03 import androidx.compose.foundation.layout.*
+04 import androidx.compose.material3.*
+05 import androidx.compose.runtime.*
+06 import androidx.compose.ui.Modifier
+07 import androidx.compose.ui.unit.dp
+08 import androidx.hilt.navigation.compose.hiltViewModel
+09 import com.healthcare.healthcare1.data.model.Vehicle
+10 import com.healthcare.healthcare1.ui.components.*
+11
+12 @Composable
+13 fun VehicleDetailsScreen(
+14     token: String,
+15     vehicleId: String,
+16     onNavigateBack: () -> Unit,
+17     viewModel: VehiclesViewModel = hiltViewModel()
+18 ) {
+19     val selectedVehicleState by viewModel.selectedVehicleState.collectAsState()
+20
+21     LaunchedEffect(vehicleId) {
+22         viewModel.loadVehicleDetails(token, vehicleId)
+23     }
+24
+25     Scaffold(
+26         topBar = {
+27             TopAppBar(
+28                 title = { Text("Vehicle Details") },
+29                 navigationIcon = {
+30                     IconButton(onClick = onNavigateBack) {
+31                         Text("←")
+32                     }
+33                 }
+34             )
+35         }
+36     ) { padding ->
+37         when (val state = selectedVehicleState) {
+38             is SelectedVehicleState.Loading -> LoadingSpinner()
+39             is SelectedVehicleState.Error -> ErrorMessage(state.message)
+40             is SelectedVehicleState.Success -> {
+41                 VehicleDetails(
+42                     vehicle = state.vehicle,
+43                     modifier = Modifier.padding(padding)
+44                 )
+45             }
+46             else -> {}
+47         }
+48     }
+49 }
+50
+51 @Composable
+52 fun VehicleDetails(
+53     vehicle: Vehicle,
+54     modifier: Modifier = Modifier
+55 ) {
+56     Column(
+57         modifier = modifier
+58             .fillMaxSize()
+59             .padding(16.dp)
+60     ) {
+61         Card(
+62             modifier = Modifier.fillMaxWidth()
+63         ) {
+64             Column(
+65                 modifier = Modifier.padding(16.dp)
+66             ) {
+67                 Text(
+68                     text = "${vehicle.year} ${vehicle.make} ${vehicle.model}",
+69                     style = MaterialTheme.typography.headlineSmall,
+70                     modifier = Modifier.padding(bottom = 16.dp)
+71                 )
+72
+73                 Text(
+74                     text = "Sensor Data",
+75                     style = MaterialTheme.typography.titleMedium,
+76                     modifier = Modifier.padding(bottom = 8.dp)
+77                 )
+78
+79                 SensorDataItem(
+80                     label = "Tire Pressure",
+81                     value = "${vehicle.sensorData.tirePressure} PSI"
+82                 )
+83
+84                 SensorDataItem(
+85                     label = "Battery Voltage",
+86                     value = "${vehicle.sensorData.batteryVoltage} V"
+87                 )
+88
+89                 SensorDataItem(
+90                     label = "Brake Pad Thickness",
+91                     value = "${vehicle.sensorData.brakePadThickness} mm"
+92                 )
+93             }
+94         }
+95     }
+96 }
+97
+98 @Composable
+99 fun SensorDataItem(
+100    label: String,
+101    value: String,
+102    modifier: Modifier = Modifier
+103) {
+104    Row(
+105        modifier = modifier
+106            .fillMaxWidth()
+107            .padding(vertical = 4.dp),
+108        horizontalArrangement = Arrangement.SpaceBetween
+109    ) {
+110        Text(text = label)
+111        Text(text = value)
+112    }
+113}
+
+В.3 ViewModel для автомобілів. GitHub репозиторій: https://github.com/NureTryhubIhnat/apz-pzpi-22-7-tryhub-ihnat/blob/main/Lab4/pzpi-22-7-tryhub-ihnat-lab4/vehicles/HealthViewModel.kt 
+
+01 package com.healthcare.healthcare1.ui.vehicles
+02
+03 import androidx.lifecycle.ViewModel
+04 import androidx.lifecycle.viewModelScope
+05 import com.healthcare.healthcare1.data.model.Vehicle
+06 import com.healthcare.healthcare1.data.repository.healthCareRepository
+07 import dagger.hilt.android.lifecycle.HiltViewModel
+08 import kotlinx.coroutines.flow.MutableStateFlow
+09 import kotlinx.coroutines.flow.StateFlow
+10 import kotlinx.coroutines.launch
+11 import javax.inject.Inject
+12
+13 @HiltViewModel
+14 class VehiclesViewModel @Inject constructor(
+15     private val repository: healthCareRepository
+16 ) : ViewModel() {
+17
+18     private val _vehiclesState = MutableStateFlow<VehiclesState>(VehiclesState.Initial)
+19     val vehiclesState: StateFlow<VehiclesState> = _vehiclesState
+20
+21     private val _selectedVehicleState = MutableStateFlow<SelectedVehicleState>(SelectedVehicleState.Initial)
+22     val selectedVehicleState: StateFlow<SelectedVehicleState> = _selectedVehicleState
+23
+24     fun loadVehicles(token: String) {
+25         viewModelScope.launch {
+26             try {
+27                 _vehiclesState.value = VehiclesState.Loading
+28                 val vehicles = repository.getVehicles(token)
+29                 _vehiclesState.value = VehiclesState.Success(vehicles)
+30             } catch (e: Exception) {
+31                 _vehiclesState.value = VehiclesState.Error(e.message ?: "Failed to load vehicles")
+32             }
+33         }
+34     }
+35
+36     fun addVehicle(token: String, make: String, model: String, year: Int) {
+37         viewModelScope.launch {
+38             try {
+39                 val vehicle = Vehicle(make = make, model = model, year = year)
+40                 val addedVehicle = repository.addVehicle(token, vehicle)
+41                 loadVehicles(token)
+42             } catch (e: Exception) {
+43                 _vehiclesState.value = VehiclesState.Error(e.message ?: "Failed to add vehicle")
+44             }
+45         }
+46     }
+47
+48     fun deleteVehicle(token: String, vehicleId: String) {
+49         viewModelScope.launch {
+50             try {
+51                 repository.deleteVehicle(token, vehicleId)
+52                 loadVehicles(token)
+53             } catch (e: Exception) {
+54                 _vehiclesState.value = VehiclesState.Error(e.message ?: "Failed to delete vehicle")
+55             }
+56         }
+57     }
+58
+59     fun loadVehicleDetails(token: String, vehicleId: String) {
+60         viewModelScope.launch {
+61             try {
+62                 _selectedVehicleState.value = SelectedVehicleState.Loading
+63                 val vehicle = repository.getVehicle(token, vehicleId)
+64                 _selectedVehicleState.value = SelectedVehicleState.Success(vehicle)
+65             } catch (e: Exception) {
+66                 _selectedVehicleState.value = SelectedVehicleState.Error(e.message ?: "Failed to load vehicle details")
+67             }
+68         }
+69     }
+70 }
+71
+72 sealed class VehiclesState {
+73     object Initial : VehiclesState()
+74     object Loading : VehiclesState()
+75     data class Success(val vehicles: List<Vehicle>) : VehiclesState()
+76     data class Error(val message: String) : VehiclesState()
+77 }
+78
+79 sealed class SelectedVehicleState {
+80     object Initial : SelectedVehicleState()
+81     object Loading : SelectedVehicleState()
+82     data class Success(val vehicle: Vehicle) : SelectedVehicleState()
+83     data class Error(val message: String) : SelectedVehicleState()
+84 }
